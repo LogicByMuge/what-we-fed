@@ -1,6 +1,7 @@
 package tile;
 
 import main.GamePanel;
+import main.UtilityTool;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -15,7 +16,7 @@ public class TileManager {
 
     public TileManager(GamePanel gp) {
         this.gp = gp;
-        tile = new Tile[2];
+        tile = new Tile[12];
         mapTileNum = new int[gp.maxScreenCol][gp.maxScreenRow];
         getTileImage();
 
@@ -23,13 +24,27 @@ public class TileManager {
     }
 
     public void getTileImage() {
-        try {
-            tile[0] = new Tile();
-            tile[0].image = ImageIO.read(getClass().getResourceAsStream("/tiles/grass00.png"));
+        setup(0,"floor",false);
+        setup(1,"empty",true);
+        setup(2,"table",true);
+        setup(3,"chair",false);
+        setup(4,"chair2",true);
+        setup(5,"wall",true);
+        setup(6,"seperator",true);
+        setup(7,"fridgeTop", true);
+        setup(8,"fridgeBottom",true);
+        setup(9,"bedroomDoor",true);
+        setup(10,  "door",true);
+        setup(11,"seperator2",true);
+    }
 
-            tile[1] = new Tile();
-            tile[1].image = ImageIO.read(getClass().getResourceAsStream("/tiles/wall.png"));
-            tile[1].collision = true;
+    public void setup(int index, String name, boolean collision) {
+        UtilityTool uTool = new UtilityTool();
+
+        try {
+            tile[index] = new Tile();
+            tile[index].image = ImageIO.read(getClass().getResourceAsStream("/tiles/" + name + ".png"));
+            tile[index].collision = collision;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

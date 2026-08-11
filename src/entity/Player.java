@@ -15,15 +15,22 @@ public class Player extends Entity{
         this.gp = gp;
         this.keyH = keyH;
 
-        solidArea = new Rectangle(8,16,32,32);
+        // HITBOX
+        solidArea = new Rectangle();
+        solidArea.x = 8;
+        solidArea.y = 32;
+        solidAreaDefaultX = solidArea.x;
+        solidAreaDefaultY = solidArea.y;
+        solidArea.width = 32;
+        solidArea.height = 16;
 
         setDafaultValues();
         getPlayerImage();
     }
 
     public void setDafaultValues() {
-        x = 100;
-        y = 100;
+        x = 200;
+        y = 300;
         speed = 4;
         direction = "down";
     }
@@ -63,6 +70,9 @@ public class Player extends Entity{
             collisionOn = false;
             gp.cChecker.checkTile(this);
 
+            // CHECK OBJECT COLLISION
+            int objIndex = gp.cChecker.checkObject(this, true);
+
             // IF COLLISION IS FALSE, PLAYER CAN MOVE
             if(collisionOn == false) {
                 switch(direction) {
@@ -92,6 +102,16 @@ public class Player extends Entity{
             }
         }
 
+    }
+
+    public void interactObject(int i) {
+        if(i != 999) {
+            String objectName = gp.obj[i].name;
+            switch(objectName) {
+                case "Table":
+                    break;
+            }
+        }
     }
 
     public void draw(Graphics2D g2) {
