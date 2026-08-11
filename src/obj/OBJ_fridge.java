@@ -2,12 +2,12 @@ package obj;
 
 import javax.imageio.ImageIO;
 
-public class OBJ_bedroom extends SuperObject{
+public class OBJ_fridge extends SuperObject{
 
-    public OBJ_bedroom() {
-        name = "Bedroom Door";
+    public OBJ_fridge() {
+        name = "Fridge";
         try {
-            image = ImageIO.read(getClass().getResourceAsStream("/objs/bedroomDoor.png"));
+            image = ImageIO.read(getClass().getResourceAsStream("/objs/fridgeBottom.png"));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -17,7 +17,7 @@ public class OBJ_bedroom extends SuperObject{
     }
 
     public void setDialogue() {
-        dialogue[0] = "You haven't eaten yet";
+        dialogue[0] = "Hello World";
     }
 
     public void getDialogue() {
@@ -27,4 +27,5 @@ public class OBJ_bedroom extends SuperObject{
         gp.ui.currentDialogue = dialogue[dialogueIndex];
         dialogueIndex++;
     }
+
 }

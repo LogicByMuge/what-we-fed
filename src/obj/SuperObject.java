@@ -13,8 +13,14 @@ public class SuperObject {
     public Rectangle solidArea = new Rectangle(0,0,48,48);
     public int solidAreaDefaultX = 0;
     public int solidAreaDefaultY = 0;
+    GamePanel gp;
+    String dialogue[] = new String[20];
+    int dialogueIndex = 0;
+
+    public void getDialogue() {};
 
     public void draw(Graphics2D g2, GamePanel gp) {
+        this.gp = gp;
         g2.drawImage(image, x, y, gp.tileSize, gp.tileSize, null);
     }
 }

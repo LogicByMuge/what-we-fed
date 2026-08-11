@@ -73,26 +73,31 @@ public class Player extends Entity{
             gp.cChecker.checkTile(this);
 
             // CHECK OBJECT COLLISION
+            // In update():
             int objIndex = gp.cChecker.checkObject(this, true);
-            interactObject(objIndex);
+            if (objIndex != 999 && keyH.enterPressed) {
+                interactObject(objIndex);
+                keyH.enterPressed = false;
+            }
+
 
             // IF COLLISION IS FALSE, PLAYER CAN MOVE
-            if(collisionOn == false) {
-                switch(direction) {
-                    case "up":
-                        y -= speed;
-                        break;
-                    case "down":
-                        y += speed;
-                        break;
-                    case "left":
-                        x -= speed;
-                        break;
-                    case "right":
-                        x += speed;
-                        break;
+                if (collisionOn == false) {
+                    switch (direction) {
+                        case "up":
+                            y -= speed;
+                            break;
+                        case "down":
+                            y += speed;
+                            break;
+                        case "left":
+                            x -= speed;
+                            break;
+                        case "right":
+                            x += speed;
+                            break;
+                    }
                 }
-            }
 
             spriteCounter++;
             if(spriteCounter > 12) {
@@ -110,19 +115,25 @@ public class Player extends Entity{
     public void interactObject(int i) {
         if(i != 999) {
             String objectName = gp.obj[i].name;
-            switch(objectName) {
+            switch (objectName) {
                 case "Table":
-                    gp.ui.showMessage("You split the food.");
+                    gp.gameState = gp.dialogueState;
+                    gp.obj[0].getDialogue();
                     canSleep = true;
                     break;
                 case "Bedroom Door":
-                    if(canSleep) {
+                    if (canSleep) {
                         days++;
                         canSleep = false;
                         gp.ui.isSleeping = true;
                     } else {
-                        gp.ui.showMessage("You haven't eaten yet.");
+                        gp.gameState = gp.dialogueState;
+                        gp.obj[i].getDialogue();
                     }
+                    break;
+                case "Fridge":
+                    gp.gameState = gp.dialogueState;
+                    gp.obj[i].getDialogue();
                     break;
             }
         }
