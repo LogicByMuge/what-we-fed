@@ -10,6 +10,8 @@ import java.awt.image.BufferedImage;
 public class Player extends Entity{
     GamePanel gp;
     KeyHandler keyH;
+    public int days = 1;
+    public boolean canSleep = false;
 
     public Player(GamePanel gp, KeyHandler keyH) {
         this.gp = gp;
@@ -72,6 +74,7 @@ public class Player extends Entity{
 
             // CHECK OBJECT COLLISION
             int objIndex = gp.cChecker.checkObject(this, true);
+            interactObject(objIndex);
 
             // IF COLLISION IS FALSE, PLAYER CAN MOVE
             if(collisionOn == false) {
@@ -109,6 +112,17 @@ public class Player extends Entity{
             String objectName = gp.obj[i].name;
             switch(objectName) {
                 case "Table":
+                    gp.ui.showMessage("You split the food.");
+                    canSleep = true;
+                    break;
+                case "Bedroom Door":
+                    if(canSleep) {
+                        days++;
+                        canSleep = false;
+                        gp.ui.isSleeping = true;
+                    } else {
+                        gp.ui.showMessage("You haven't eaten yet.");
+                    }
                     break;
             }
         }
