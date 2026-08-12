@@ -1,6 +1,7 @@
 package main;
 
 import obj.OBJ_bedroom;
+import obj.OBJ_child;
 import obj.OBJ_fridge;
 import obj.OBJ_table;
 
@@ -23,5 +24,9 @@ public class AssetSetter {
         gp.obj[2] = new OBJ_fridge();
         gp.obj[2].x = 11 * gp.tileSize;
         gp.obj[2].y = 4 * gp.tileSize;
+
+        gp.obj[3] = new OBJ_child();
+        gp.obj[3].x = 7 * gp.tileSize;
+        gp.obj[3].y = 8 * gp.tileSize;
     }
 }

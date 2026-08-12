@@ -17,14 +17,10 @@ public class OBJ_bedroom extends SuperObject{
     }
 
     public void setDialogue() {
-        dialogue[0] = "You haven't eaten yet";
+        dialogue[0][0] = "I should feed us before I sleep";
     }
 
     public void getDialogue() {
-        if (dialogueIndex >= dialogue.length || dialogue[dialogueIndex] == null) {
-            dialogueIndex = 0;
-        }
-        gp.ui.currentDialogue = dialogue[dialogueIndex];
-        dialogueIndex++;
+        startDialogue(this,dialogueIndex);
     }
 }

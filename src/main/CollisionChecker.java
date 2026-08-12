@@ -1,6 +1,7 @@
 package main;
 
 import entity.Entity;
+import obj.SuperObject;
 
 public class CollisionChecker {
     GamePanel gp;
@@ -117,6 +118,40 @@ public class CollisionChecker {
                 gp.obj[i].solidArea.y = gp.obj[i].solidAreaDefaultY;
             }
         }
+        return index;
+    }
+
+    public int checkObjectInFront(Entity entity, SuperObject[] targets) {
+        int index = 999;
+        int checkDistance = gp.tileSize;
+
+        entity.solidArea.x = entity.x + entity.solidArea.x;
+        entity.solidArea.y = entity.y + entity.solidArea.y;
+
+        switch (entity.direction) {
+            case "up":    entity.solidArea.y -= checkDistance; break;
+            case "down":  entity.solidArea.y += checkDistance; break;
+            case "left":  entity.solidArea.x -= checkDistance; break;
+            case "right": entity.solidArea.x += checkDistance; break;
+        }
+
+        for (int i = 0; i < targets.length; i++) {
+            if (targets[i] != null) {
+                targets[i].solidArea.x = targets[i].x + targets[i].solidArea.x;
+                targets[i].solidArea.y = targets[i].y + targets[i].solidArea.y;
+
+                if (entity.solidArea.intersects(targets[i].solidArea)) {
+                    index = i;
+                }
+
+                targets[i].solidArea.x = targets[i].solidAreaDefaultX;
+                targets[i].solidArea.y = targets[i].solidAreaDefaultY;
+            }
+        }
+
+        entity.solidArea.x = entity.solidAreaDefaultX;
+        entity.solidArea.y = entity.solidAreaDefaultY;
+
         return index;
     }
 }

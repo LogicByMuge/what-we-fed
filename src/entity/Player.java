@@ -73,13 +73,7 @@ public class Player extends Entity{
             gp.cChecker.checkTile(this);
 
             // CHECK OBJECT COLLISION
-            // In update():
-            int objIndex = gp.cChecker.checkObject(this, true);
-            if (objIndex != 999 && keyH.enterPressed) {
-                interactObject(objIndex);
-                keyH.enterPressed = false;
-            }
-
+            gp.cChecker.checkObject(this, true);
 
             // IF COLLISION IS FALSE, PLAYER CAN MOVE
                 if (collisionOn == false) {
@@ -110,6 +104,14 @@ public class Player extends Entity{
             }
         }
 
+        if (keyH.enterPressed) {
+            int objIndex = gp.cChecker.checkObjectInFront(this, gp.obj);
+            if (objIndex != 999) {
+                interactObject(objIndex);
+            }
+            keyH.enterPressed = false;
+        }
+
     }
 
     public void interactObject(int i) {
@@ -117,8 +119,7 @@ public class Player extends Entity{
             String objectName = gp.obj[i].name;
             switch (objectName) {
                 case "Table":
-                    gp.gameState = gp.dialogueState;
-                    gp.obj[0].getDialogue();
+                    gp.obj[i].getDialogue();
                     canSleep = true;
                     break;
                 case "Bedroom Door":
@@ -126,15 +127,21 @@ public class Player extends Entity{
                         days++;
                         canSleep = false;
                         gp.ui.isSleeping = true;
+
+                        for (int j = 0; j < gp.obj.length; j++) {
+                            if (gp.obj[j] != null) {
+                                gp.obj[j].alreadyAte = false;
+                            }
+                        }
                     } else {
-                        gp.gameState = gp.dialogueState;
                         gp.obj[i].getDialogue();
                     }
                     break;
                 case "Fridge":
-                    gp.gameState = gp.dialogueState;
                     gp.obj[i].getDialogue();
                     break;
+                case "Chair":
+                    gp.obj[i].getDialogue();
             }
         }
     }

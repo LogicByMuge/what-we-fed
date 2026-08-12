@@ -14,10 +14,20 @@ public class SuperObject {
     public int solidAreaDefaultX = 0;
     public int solidAreaDefaultY = 0;
     GamePanel gp;
-    String dialogue[] = new String[20];
-    int dialogueIndex = 0;
+    public String dialogue[][] = new String[20][20];
+    public int dialogueIndex = 0;
+
+    public int dialogueSet = 0;
+
+    public boolean alreadyAte = false;
 
     public void getDialogue() {};
+
+    public void startDialogue(SuperObject obj, int setNum) {
+        gp.gameState = gp.dialogueState;
+        gp.ui.sObj = obj;
+        dialogueSet = setNum;
+    }
 
     public void draw(Graphics2D g2, GamePanel gp) {
         this.gp = gp;

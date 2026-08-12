@@ -1,5 +1,7 @@
 package main;
 
+import obj.SuperObject;
+
 import java.awt.*;
 
 public class UI {
@@ -12,6 +14,9 @@ public class UI {
     int secondCounter = 0;
     public boolean isSleeping = false;
     public String currentDialogue = "";
+    public boolean dialogueIsComplete = false;
+    public boolean isPressingEnter = false;
+    public SuperObject sObj = new SuperObject();
 
     public UI(GamePanel gp) {
         this.gp = gp;
@@ -28,7 +33,7 @@ public class UI {
 
         // DIALOGUE
         if(gp.gameState == gp.dialogueState) {
-            drawDialogueScreen();
+                drawDialogueScreen();
         }
 
         // MESSAGES
@@ -85,7 +90,30 @@ public class UI {
         x+= gp.tileSize;
         y += gp.tileSize;
         g2.setFont(g2.getFont().deriveFont(20F));
-        g2.drawString(currentDialogue,x,y);
+
+        if(sObj.dialogue[sObj.dialogueSet][sObj.dialogueIndex] != null) {
+            currentDialogue = sObj.dialogue[sObj.dialogueSet][sObj.dialogueIndex];
+            if(gp.keyH.enterPressed) {
+                if(gp.gameState == gp.dialogueState) {
+                    sObj.dialogueIndex++;
+                    gp.keyH.enterPressed = false;
+                }
+            }
+        } else {
+            sObj.dialogueIndex = 0;
+
+            if(gp.gameState == gp.dialogueState) {
+                gp.gameState = gp.playState;
+            }
+        }
+
+        int lineHeight = 30;
+
+        for (String line : currentDialogue.split("\n")) {
+            g2.drawString(line, x, y);
+            y += lineHeight;
+        }
+
     }
 
     public void drawSubWindow(int x, int y, int width, int height) {
