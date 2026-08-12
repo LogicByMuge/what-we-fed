@@ -26,15 +26,13 @@ public class OBJ_child extends SuperObject{
     }
 
     public void getDialogue() {
-        startDialogue(this,dialogueSet);
 
-        if(gp.player.days == 2 || dialogueSet == -1) {
-            dialogueSet++;
-        }
-
-
-        if(dialogue[dialogueSet][0] == null) {
+        if (gp.player.days == 2) {
+            dialogueSet = 1;
+        } else {
             dialogueSet = 0;
         }
+
+        startDialogue(this, dialogueSet);
     }
 }

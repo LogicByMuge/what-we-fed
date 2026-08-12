@@ -17,6 +17,8 @@ public class UI {
     public boolean dialogueIsComplete = false;
     public boolean isPressingEnter = false;
     public SuperObject sObj = new SuperObject();
+    int charIndex = 0;
+    String combinedText = "";
 
     public UI(GamePanel gp) {
         this.gp = gp;
@@ -92,8 +94,19 @@ public class UI {
         g2.setFont(g2.getFont().deriveFont(20F));
 
         if(sObj.dialogue[sObj.dialogueSet][sObj.dialogueIndex] != null) {
-            currentDialogue = sObj.dialogue[sObj.dialogueSet][sObj.dialogueIndex];
+//            currentDialogue = sObj.dialogue[sObj.dialogueSet][sObj.dialogueIndex];
+
+            char characters[] = sObj.dialogue[sObj.dialogueSet][sObj.dialogueIndex].toCharArray();
+            if(charIndex < characters.length) {
+                String s = String.valueOf(characters[charIndex]);
+                combinedText = combinedText + s;
+                currentDialogue = combinedText;
+                charIndex++;
+            }
+
             if(gp.keyH.enterPressed) {
+                charIndex = 0;
+                combinedText = "";
                 if(gp.gameState == gp.dialogueState) {
                     sObj.dialogueIndex++;
                     gp.keyH.enterPressed = false;
@@ -107,7 +120,7 @@ public class UI {
             }
         }
 
-        int lineHeight = 30;
+        int lineHeight = 20;
 
         for (String line : currentDialogue.split("\n")) {
             g2.drawString(line, x, y);
