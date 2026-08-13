@@ -1,9 +1,6 @@
 package main;
 
-import obj.OBJ_bedroom;
-import obj.OBJ_child;
-import obj.OBJ_fridge;
-import obj.OBJ_table;
+import obj.*;
 
 public class AssetSetter {
     GamePanel gp;
@@ -28,5 +25,10 @@ public class AssetSetter {
         gp.obj[3] = new OBJ_child();
         gp.obj[3].x = 7 * gp.tileSize;
         gp.obj[3].y = 8 * gp.tileSize;
+
+        gp.obj[4] = new OBJ_door();
+        gp.obj[4].x = 2 * gp.tileSize;
+        gp.obj[4].y = 11 * gp.tileSize;
+
     }
 }

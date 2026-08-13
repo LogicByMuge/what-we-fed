@@ -12,6 +12,7 @@ public class Player extends Entity{
     KeyHandler keyH;
     public int days = 1;
     public boolean canSleep = false;
+    public int objIndex = 0;
 
     public Player(GamePanel gp, KeyHandler keyH) {
         this.gp = gp;
@@ -33,7 +34,7 @@ public class Player extends Entity{
     public void setDafaultValues() {
         x = 200;
         y = 300;
-        speed = 4;
+        speed = 3;
         direction = "down";
     }
 
@@ -105,7 +106,7 @@ public class Player extends Entity{
         }
 
         if (keyH.enterPressed) {
-            int objIndex = gp.cChecker.checkObjectInFront(this, gp.obj);
+            objIndex = gp.cChecker.checkObjectInFront(this, gp.obj);
             if (objIndex != 999) {
                 interactObject(objIndex);
             }
@@ -120,13 +121,16 @@ public class Player extends Entity{
             switch (objectName) {
                 case "Table":
                     gp.obj[i].getDialogue();
-                    canSleep = true;
+                    if(!gp.nEvent.isNight) {
+                        canSleep = true;
+                    }
                     break;
                 case "Bedroom Door":
                     if (canSleep) {
-                        days++;
                         canSleep = false;
-                        gp.ui.isSleeping = true;
+                        gp.nEvent.bedroomObj = gp.obj[i];
+                        gp.nEvent.startEvent();
+                       // gp.ui.isSleeping = true;
 
                         for (int j = 0; j < gp.obj.length; j++) {
                             if (gp.obj[j] != null) {
@@ -142,6 +146,14 @@ public class Player extends Entity{
                     break;
                 case "Chair":
                     gp.obj[i].getDialogue();
+                    break;
+                case "Door":
+                    gp.obj[i].getDialogue();
+                    if(gp.nEvent.isNight) {
+                        gp.nEvent.isHolding = true;
+                        gp.nEvent.doorObj = gp.obj[i];
+                    }
+                    break;
             }
         }
     }

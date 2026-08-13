@@ -29,15 +29,17 @@ public class GamePanel extends JPanel implements Runnable{
     public CollisionChecker cChecker = new CollisionChecker(this);
     public AssetSetter aSetter = new AssetSetter(this);
     public UI ui = new UI(this);
+    public NightEvent nEvent = new NightEvent(this);
 
     // ENTITY AND OBJECT
     public Player player = new Player(this,keyH);
-    public SuperObject obj[] = new SuperObject[4];
+    public SuperObject obj[] = new SuperObject[5];
 
     // GAME STATE
     public int gameState;
     public final int playState = 1;
     public final int dialogueState = 2;
+    public final int gameOver = 3;
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -88,6 +90,7 @@ public class GamePanel extends JPanel implements Runnable{
     public void update() {
         if(gameState == playState) {
             player.update();
+            nEvent.update();
         }
     }
 

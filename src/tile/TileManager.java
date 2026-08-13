@@ -34,8 +34,7 @@ public class TileManager {
         setup(7,"fridgeTop", true);
         setup(8,"fridgeBottom",true);
         setup(9,"bedroomDoor",true);
-        setup(10,  "door",true);
-        setup(11,"seperator2",true);
+        setup(10,"seperator2",true);
     }
 
     public void setup(int index, String name, boolean collision) {
