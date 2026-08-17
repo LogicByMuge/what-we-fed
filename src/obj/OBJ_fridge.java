@@ -18,22 +18,20 @@ public class OBJ_fridge extends SuperObject{
     }
 
     public void setDialogue() {
-        dialogue[0][0] = "Hello World";
+        dialogue[0][0] = "*Fridge Noises*";
 
         dialogue[1][0] = "World Hello";
     }
 
     public void getDialogue() {
-        startDialogue(this,dialogueSet);
 
-        if(gp.player.days == 2 || dialogueSet == -1) {
-            dialogueSet++;
-        }
-
-
-        if(dialogue[dialogueSet][0] == null) {
+        if (gp.player.days == 2) {
+            dialogueSet = 1;
+        } else {
             dialogueSet = 0;
         }
+
+        startDialogue(this, dialogueSet);
     }
 
 }

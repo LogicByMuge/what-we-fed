@@ -69,14 +69,12 @@ public class Player extends Entity{
                 direction = "right";
             }
 
-            // CHECK TILE COLLISION
             collisionOn = false;
             gp.cChecker.checkTile(this);
 
             // CHECK OBJECT COLLISION
             gp.cChecker.checkObject(this, true);
 
-            // IF COLLISION IS FALSE, PLAYER CAN MOVE
                 if (collisionOn == false) {
                     switch (direction) {
                         case "up":
@@ -103,24 +101,48 @@ public class Player extends Entity{
                 }
                 spriteCounter = 0;
             }
+
+
         }
 
         if (keyH.enterPressed) {
-            objIndex = gp.cChecker.checkObjectInFront(this, gp.obj);
+            objIndex = gp.cChecker.checkObjectInFront(this, gp.obj[gp.currentMap]);
             if (objIndex != 999) {
                 interactObject(objIndex);
             }
             keyH.enterPressed = false;
         }
 
+        // MAP 2 SCREEN TRANSITION
+        if (gp.currentMap == 1) {
+
+            // RIGHT SIDE → LEFT SIDE
+            if (gp.map2Section == 1 && x <= 41) {
+
+                gp.map2Section = 0;
+
+                // Put player on the right side of the LEFT screen
+                x = gp.screenWidth - gp.tileSize;
+            }
+
+            // LEFT SIDE → RIGHT SIDE
+            else if (gp.map2Section == 0 && x >= gp.screenWidth - gp.tileSize) {
+
+                gp.map2Section = 1;
+
+                // Put player on the left side of the RIGHT screen
+                x = 53;
+            }
+        }
+
     }
 
     public void interactObject(int i) {
         if(i != 999) {
-            String objectName = gp.obj[i].name;
+            String objectName = gp.obj[gp.currentMap][i].name;
             switch (objectName) {
                 case "Table":
-                    gp.obj[i].getDialogue();
+                    gp.obj[0][i].getDialogue();
                     if(!gp.nEvent.isNight) {
                         canSleep = true;
                     }
@@ -128,30 +150,33 @@ public class Player extends Entity{
                 case "Bedroom Door":
                     if (canSleep) {
                         canSleep = false;
-                        gp.nEvent.bedroomObj = gp.obj[i];
+                        gp.nEvent.bedroomObj = gp.obj[0][i];
                         gp.nEvent.startEvent();
                        // gp.ui.isSleeping = true;
 
                         for (int j = 0; j < gp.obj.length; j++) {
                             if (gp.obj[j] != null) {
-                                gp.obj[j].alreadyAte = false;
+                                gp.obj[0][j].alreadyAte = false;
                             }
                         }
                     } else {
-                        gp.obj[i].getDialogue();
+                        gp.obj[0][i].getDialogue();
                     }
                     break;
                 case "Fridge":
-                    gp.obj[i].getDialogue();
+                    gp.obj[0][i].getDialogue();
                     break;
                 case "Chair":
-                    gp.obj[i].getDialogue();
+                    gp.obj[0][i].getDialogue();
                     break;
                 case "Door":
-                    gp.obj[i].getDialogue();
+                    gp.currentMap = 1;
+                    y = 300;
+                    x = 200;
+                    //gp.obj[0][i].getDialogue();
                     if(gp.nEvent.isNight) {
                         gp.nEvent.isHolding = true;
-                        gp.nEvent.doorObj = gp.obj[i];
+                        gp.nEvent.doorObj = gp.obj[0][i];
                     }
                     break;
             }

@@ -39,6 +39,7 @@ public class NightEvent {
         gp.keyH.lastTypedChar = '\0';
 
         gp.ui.showMessage("Hold the door");
+
     }
 
 
