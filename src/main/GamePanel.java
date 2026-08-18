@@ -34,7 +34,7 @@ public class GamePanel extends JPanel implements Runnable{
 
     // ENTITY AND OBJECT
     public Player player = new Player(this,keyH);
-    public SuperObject obj[][] = new SuperObject[2][5];
+    public SuperObject obj[][] = new SuperObject[2][9];
 
     // WORLD SETTING
     public int currentMap = 0;

@@ -173,7 +173,8 @@ public class CollisionChecker {
              i < gp.obj[gp.currentMap].length;
              i++) {
 
-            if (gp.obj[gp.currentMap][i] != null) {
+            if (gp.obj[gp.currentMap][i] != null &&
+                    gp.obj[gp.currentMap][i].collision) {
 
                 // Entity's solid area
                 entity.solidArea.x =

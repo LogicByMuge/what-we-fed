@@ -13,6 +13,9 @@ public class Player extends Entity{
     public int days = 1;
     public boolean canSleep = false;
     public int objIndex = 0;
+    public int food = 0;
+    public boolean hasEaten = false;
+    public boolean restocked = false;
 
     public Player(GamePanel gp, KeyHandler keyH) {
         this.gp = gp;
@@ -142,13 +145,18 @@ public class Player extends Entity{
             String objectName = gp.obj[gp.currentMap][i].name;
             switch (objectName) {
                 case "Table":
+                    hasEaten = true;
                     gp.obj[0][i].getDialogue();
                     if(!gp.nEvent.isNight) {
                         canSleep = true;
                     }
                     break;
                 case "Bedroom Door":
-                    if (canSleep) {
+                    if (canSleep && restocked) {
+                        if(days % 2 == 0) {
+                            restocked = false;
+                        }
+                        hasEaten = false;
                         canSleep = false;
                         gp.nEvent.bedroomObj = gp.obj[0][i];
                         gp.nEvent.startEvent();
@@ -170,14 +178,52 @@ public class Player extends Entity{
                     gp.obj[0][i].getDialogue();
                     break;
                 case "Door":
-                    gp.currentMap = 1;
-                    y = 300;
-                    x = 200;
-                    //gp.obj[0][i].getDialogue();
-                    if(gp.nEvent.isNight) {
-                        gp.nEvent.isHolding = true;
-                        gp.nEvent.doorObj = gp.obj[0][i];
+
+                    // DAYTIME
+                    if (!gp.nEvent.isNight) {
+
+                        if (days % 2 == 1) {
+
+                            if (food == 0 && hasEaten) {
+                                gp.currentMap = 1;
+                                x = 13 * gp.tileSize;
+                                y = 5 * gp.tileSize;
+                            } else {
+                                gp.obj[gp.currentMap][i].getDialogue();
+                            }
+
+                        } else {
+                            gp.obj[gp.currentMap][i].getDialogue();
+                        }
                     }
+
+                    // NIGHTTIME
+                    else {
+
+                        gp.nEvent.isHolding = true;
+                        gp.nEvent.doorObj = gp.obj[gp.currentMap][i];
+
+                    }
+
+                    break;
+                case "Corridor Door":
+                    if(restocked) {
+                        gp.currentMap = 0;
+                        x = 3 * gp.tileSize;
+                        y = 10 * gp.tileSize;
+                    } else {
+                        gp.obj[1][i].getDialogue();
+                    }
+                    break;
+                case "Trap":
+                    gp.obj[1][i].getDialogue();
+                    break;
+                case "Locked Door":
+                    gp.obj[1][i].getDialogue();
+                    break;
+                case "Shelf":
+                    restocked = true;
+                    gp.obj[1][i].getDialogue();
                     break;
             }
         }
