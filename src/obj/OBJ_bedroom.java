@@ -18,13 +18,14 @@ public class OBJ_bedroom extends SuperObject{
 
     public void setDialogue() {
 
-        dialogue[0][0] = "I should feed us before I sleep";
+        dialogue[0][0] = "Not yet.";
+        dialogue[0][1] = "Not like this.";
 
         // Night Event
-        dialogue[1][0] = "You had a bad dream";
+        dialogue[1][0] = "It's a bad dream.";
 
         //
-        dialogue[2][0] = "I need to restock our food supplies.";
+        dialogue[2][0] = "Not yet. The food is running out.";
     }
 
     public void getDialogue() {

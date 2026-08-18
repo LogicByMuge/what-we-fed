@@ -186,7 +186,7 @@ public class UI {
         }
     }
 
-        int lineHeight = 20;
+        int lineHeight = 25;
 
         for (String line : currentDialogue.split("\n")) {
             g2.drawString(line, x, y);

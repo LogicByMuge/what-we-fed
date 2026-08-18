@@ -17,7 +17,7 @@ public class OBJ_corridorDoor extends SuperObject{
     }
 
     public void setDialogue() {
-        dialogue[0][0] = "I should find food first.";
+        dialogue[0][0] = "Can't leave without food.";
     }
 
     public void getDialogue() {

@@ -31,6 +31,8 @@ public class SuperObject {
         }
     }
 
+    public void getDefaultDialogue() {
+    }
     public void forceStartDialogue(SuperObject obj, int setNum) {
         gp.gameState = gp.dialogueState;
         gp.ui.sObj = obj;

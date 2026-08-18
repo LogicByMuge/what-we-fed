@@ -10,10 +10,11 @@ public class NightEvent {
     public boolean isHolding;
     public String targetSequence = "";
     private final String[] daySequences = {
-            "enogdlihc",  // day 1
-            "plehteg",     // day 2
-            "megel",   // day 3
-            "ewan"    // day 4
+            "DLOHZX",  // day 1
+            "YATSMV",     // day 2
+            "TEIUQI",   // day 3
+            "LLITS",    // day 4
+            "YRROS" // day 5
     };
     public int sequenceIndex = 0;
     public SuperObject doorObj;

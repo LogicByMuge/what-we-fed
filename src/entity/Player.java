@@ -10,12 +10,13 @@ import java.awt.image.BufferedImage;
 public class Player extends Entity{
     GamePanel gp;
     KeyHandler keyH;
-    public int days = 1;
+    public int days = 5;
     public boolean canSleep = false;
     public int objIndex = 0;
     public int food = 0;
     public boolean hasEaten = false;
     public boolean restocked = false;
+    boolean dialogueDone = false;
 
     public Player(GamePanel gp, KeyHandler keyH) {
         this.gp = gp;
@@ -152,57 +153,57 @@ public class Player extends Entity{
                     }
                     break;
                 case "Bedroom Door":
-                    if (canSleep && restocked) {
-                        if(days % 2 == 0) {
+                    if (canSleep && (food > 0 || days >= 5)) {
+
+                        if (days % 2 == 1) {
                             restocked = false;
                         }
+                        // Days 2 and 4
+                        else {
+                            food = 0;
+                        }
+
                         hasEaten = false;
                         canSleep = false;
+
                         gp.nEvent.bedroomObj = gp.obj[0][i];
                         gp.nEvent.startEvent();
-                       // gp.ui.isSleeping = true;
 
-                        for (int j = 0; j < gp.obj.length; j++) {
-                            if (gp.obj[j] != null) {
+                        for (int j = 0; j < gp.obj[0].length; j++) {
+                            if (gp.obj[0][j] != null) {
                                 gp.obj[0][j].alreadyAte = false;
                             }
                         }
+
                     } else {
                         gp.obj[0][i].getDialogue();
                     }
                     break;
                 case "Fridge":
-                    gp.obj[0][i].getDialogue();
+                    if(restocked) {
+                        gp.obj[0][i].getDefaultDialogue();
+                    } else {
+                        gp.obj[0][i].getDialogue();
+                    }
                     break;
                 case "Chair":
-                    gp.obj[0][i].getDialogue();
+                    if(hasEaten) {
+                        gp.obj[0][i].getDialogue();
+                    } else {
+                        gp.obj[0][i].getDefaultDialogue();
+                    }
                     break;
                 case "Door":
-
-                    // DAYTIME
                     if (!gp.nEvent.isNight) {
-
-                        if (days % 2 == 1) {
-
-                            if (food == 0 && hasEaten) {
-                                gp.currentMap = 1;
-                                x = 13 * gp.tileSize;
-                                y = 5 * gp.tileSize;
-                            } else {
-                                gp.obj[gp.currentMap][i].getDialogue();
-                            }
-
+                        if (days == 6) {
+                            gp.obj[0][i].getDialogue();
+                        } else if (days % 2 == 1 && days != 5) {
                         } else {
-                            gp.obj[gp.currentMap][i].getDialogue();
+                            gp.obj[0][i].getDialogue();
                         }
-                    }
-
-                    // NIGHTTIME
-                    else {
-
+                    } else {
                         gp.nEvent.isHolding = true;
                         gp.nEvent.doorObj = gp.obj[gp.currentMap][i];
-
                     }
 
                     break;
@@ -222,8 +223,13 @@ public class Player extends Entity{
                     gp.obj[1][i].getDialogue();
                     break;
                 case "Shelf":
-                    restocked = true;
-                    gp.obj[1][i].getDialogue();
+                    if(!restocked) {
+                        restocked = true;
+                        food = 1;
+                        gp.obj[1][i].getDialogue();
+                    } else {
+                        gp.obj[1][i].getDefaultDialogue();
+                    }
                     break;
             }
         }

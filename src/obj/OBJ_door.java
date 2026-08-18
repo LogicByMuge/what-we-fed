@@ -17,19 +17,22 @@ public class OBJ_door extends SuperObject{
     }
 
     public void setDialogue() {
-        dialogue[0][0] = "I shouldn't go out yet.";
+        dialogue[0][0] = "Not yet.";
+        dialogue[0][1] = "Eat first.";
 
         // Night Event
         dialogue[1][0] = "They're gone...";
 
         // Locked state
-        dialogue[2][0] = "We still have food.";
-        dialogue[2][1] = "Theres no reason to go out.";
+        dialogue[2][0] = "No need today.";
+
+        dialogue[3][0] = "Not much food left.";
+        dialogue[3][1] = "She'll need to go out again soon.";
     }
 
     public void getDialogue() {
 
-        if (gp.player.days % 2 == 1) {
+        if (gp.player.days % 2 == 1 && gp.player.days != 5) {
             dialogueSet = 0;
         } else {
             dialogueSet = 2;
@@ -41,6 +44,11 @@ public class OBJ_door extends SuperObject{
     public void getCompleteDialogue() {
         dialogueIndex = 0;
         forceStartDialogue(this, 1);
+    }
+
+    public void getDefaultDialogue() {
+        dialogueSet = 3;
+        startDialogue(this, dialogueSet);
     }
 
 }
