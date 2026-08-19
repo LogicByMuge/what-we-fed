@@ -10,7 +10,7 @@ import java.awt.image.BufferedImage;
 public class Player extends Entity{
     GamePanel gp;
     KeyHandler keyH;
-    public int days = 5;
+    public int days = 1;
     public boolean canSleep = false;
     public int objIndex = 0;
     public int food = 0;
@@ -198,6 +198,18 @@ public class Player extends Entity{
                         if (days == 6) {
                             gp.obj[0][i].getDialogue();
                         } else if (days % 2 == 1 && days != 5) {
+                            if (food == 0 && hasEaten && dialogueDone) {
+                                gp.currentMap = 1;
+                                x = 13 * gp.tileSize;
+                                y = 5 * gp.tileSize;
+                            } else {
+                                if (!hasEaten) {
+                                    gp.obj[0][i].getDialogue();
+                                } else {
+                                    gp.obj[0][i].getDefaultDialogue();
+                                    dialogueDone = true;
+                                }
+                            }
                         } else {
                             gp.obj[0][i].getDialogue();
                         }
@@ -205,7 +217,6 @@ public class Player extends Entity{
                         gp.nEvent.isHolding = true;
                         gp.nEvent.doorObj = gp.obj[gp.currentMap][i];
                     }
-
                     break;
                 case "Corridor Door":
                     if(restocked) {
