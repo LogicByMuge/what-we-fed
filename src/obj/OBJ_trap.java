@@ -28,7 +28,7 @@ public class OBJ_trap extends SuperObject {
         dialogue[0][2] = "Not what she was afraid of either.";
 
         dialogue[1][0] = "Still there.";
-        dialogue[1][1] = "She doesn't look this time either.";
+        dialogue[1][1] = "She doesn't look this time.";
     }
 
     public void getDialogue() {

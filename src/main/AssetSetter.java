@@ -1,5 +1,6 @@
 package main;
 
+import entity.NPC_Survivor;
 import obj.*;
 
 public class AssetSetter {
@@ -12,6 +13,8 @@ public class AssetSetter {
     public OBJ_trap trap;
     public OBJ_lockedDoor lockedDoor;
     public OBJ_shelf shelf;
+
+    public NPC_Survivor survivor;
 
     public AssetSetter(GamePanel gp) {
         this.gp = gp;
@@ -41,6 +44,7 @@ public class AssetSetter {
         gp.obj[0][4].x = 3 * gp.tileSize;
         gp.obj[0][4].y = 565;
 
+
         corridorDoor = new OBJ_corridorDoor();
         corridorDoor.x = 13 * gp.tileSize;
         corridorDoor.y = 4 * gp.tileSize;
@@ -60,12 +64,14 @@ public class AssetSetter {
         shelf.x = 1 * gp.tileSize;
         shelf.y = 200;
         gp.obj[1][3] = shelf;
+
+
     }
 
     public void updateObjects() {
 
-        // NIGHT EVENT
-        if (gp.nEvent.isNight) {
+        // NIGHT EVENT (or Day 6 cutscene)
+        if (gp.nEvent.isNight || gp.cutscene.active) {
 
             gp.obj[0][0] = null;
             gp.obj[0][3] = null;
@@ -90,5 +96,13 @@ public class AssetSetter {
             gp.obj[1][2] = lockedDoor;
             gp.obj[1][3] = shelf;
         }
+    }
+
+    public void setNPC() {
+        survivor = new NPC_Survivor(gp);
+        survivor.x = 3 * gp.tileSize;
+        survivor.y = 515;
+        survivor.visible = false;
+        gp.npc[0] = survivor;
     }
 }

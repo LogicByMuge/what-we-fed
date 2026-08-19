@@ -31,6 +31,9 @@ public class UI {
     public boolean awaitingTaskCompleteDialogue = false;
     public SuperObject doorObj;
     boolean awaitingGameOverDialogue;
+    public boolean cutsceneBlackout = false;
+    int cutsceneBlackoutCounter = 0;
+    public int cutsceneBlackoutDuration = 120; // ~2 seconds at 60 FPS
 
     public UI(GamePanel gp) {
         this.gp = gp;
@@ -44,6 +47,17 @@ public class UI {
 
     public void draw(Graphics2D g2) {
         this.g2 = g2;
+
+        // CUTSCENE BLACKOUT (takes priority over everything else)
+        if (cutsceneBlackout) {
+            drawBlankWindow();
+            cutsceneBlackoutCounter++;
+            if (cutsceneBlackoutCounter > cutsceneBlackoutDuration) {
+                cutsceneBlackoutCounter = 0;
+                cutsceneBlackout = false;
+            }
+            return;
+        }
 
         // DIALOGUE
         if(gp.gameState == gp.dialogueState) {
@@ -158,6 +172,13 @@ public class UI {
                 String s = String.valueOf(characters[charIndex]);
                 combinedText = combinedText + s;
                 currentDialogue = combinedText;
+
+                char c = characters[charIndex];
+                if (charIndex % 2 == 0 && c != ' ') {
+                    gp.sound.setFile(2);
+                    gp.sound.play();
+                }
+
                 charIndex++;
             }
 

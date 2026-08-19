@@ -41,7 +41,7 @@ public class OBJ_fridge extends SuperObject{
 
         // day 6
         dialogue[6][0] = "She opens it out of habit.";
-        dialogue[6][0] = "Doesn't take anything out.";
+        dialogue[6][1] = "Doesn't take anything out.";
 
         // After restock
         dialogue[3][0] = "That should do.";

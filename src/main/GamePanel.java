@@ -1,11 +1,13 @@
 package main;
 
+import entity.Entity;
 import entity.Player;
 import obj.SuperObject;
 import tile.TileManager;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 public class GamePanel extends JPanel implements Runnable{
 
@@ -31,10 +33,14 @@ public class GamePanel extends JPanel implements Runnable{
     public UI ui = new UI(this);
     public NightEvent nEvent = new NightEvent(this);
     public Lighting lighting = new Lighting(this);
+    public Cutscene cutscene = new Cutscene(this);
+    public Sound sound = new Sound();
+    public Sound music = new Sound();
 
     // ENTITY AND OBJECT
     public Player player = new Player(this,keyH);
-    public SuperObject obj[][] = new SuperObject[2][9];
+    public SuperObject obj[][] = new SuperObject[2][10];
+    public Entity npc[] = new Entity[1];
 
     // WORLD SETTING
     public int currentMap = 0;
@@ -45,6 +51,12 @@ public class GamePanel extends JPanel implements Runnable{
     public final int playState = 1;
     public final int dialogueState = 2;
     public final int gameOver = 3;
+    public final int endingState = 4;
+
+    BufferedImage[] endingImages = new BufferedImage[3];
+    int endingIndex = 0;
+    int endingTimer = 0;
+    final int endingImageDuration = 240;
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -55,9 +67,17 @@ public class GamePanel extends JPanel implements Runnable{
     }
 
     public void setupGame() {
-
         aSetter.setObject();
+        aSetter.setNPC();
         gameState = playState;
+
+        try {
+            endingImages[0] = javax.imageio.ImageIO.read(getClass().getResourceAsStream("/ending/scene1.png"));
+            endingImages[1] = javax.imageio.ImageIO.read(getClass().getResourceAsStream("/ending/s2.png"));
+            endingImages[2] = javax.imageio.ImageIO.read(getClass().getResourceAsStream("/ending/s3.png"));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     // GAME LOOP
@@ -94,12 +114,22 @@ public class GamePanel extends JPanel implements Runnable{
     }
 
 
-    // INPUTS
     public void update() {
         if(gameState == playState) {
             player.update();
             nEvent.update();
             aSetter.updateObjects();
+            if (cutscene.active) cutscene.update();
+        }
+        else if (gameState == endingState) {
+            endingTimer++;
+            if (endingTimer > endingImageDuration) {
+                endingTimer = 0;
+                endingIndex++;
+                if (endingIndex >= endingImages.length) {
+                    System.exit(0);
+                }
+            }
         }
     }
 
@@ -107,8 +137,15 @@ public class GamePanel extends JPanel implements Runnable{
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-
         Graphics2D g2 = (Graphics2D) g;
+
+        if (gameState == endingState) {
+            if (endingImages[endingIndex] != null) {
+                g2.drawImage(endingImages[endingIndex], 0, 0, screenWidth, screenHeight, null);
+            }
+            g2.dispose();
+            return;
+        }
 
         // TILE
         tileM.draw(g2);
@@ -122,6 +159,15 @@ public class GamePanel extends JPanel implements Runnable{
 
         // PLAYER
         player.draw(g2);
+
+        // NPC
+        for(int i = 0; i < npc.length; i++) {
+            if(npc[i] != null && npc[i].visible) {
+                npc[i].draw(g2);
+            }
+        }
+
+
 
         // LIGHTING
         lighting.draw(g2);

@@ -44,7 +44,7 @@ public class OBJ_child extends SuperObject{
         dialogue[5][2] = "Mara's gotten used to the quiet.";
 
         // day 5
-        dialogue[6][0] = "She goes to feed her, like always.";
+        dialogue[6][0] = "She reaches for her, same as always.";
         dialogue[6][1] = "Her hand stops.";
         dialogue[6][2] = "Molly hasn't moved.";
         dialogue[6][3] = "She's cold.";

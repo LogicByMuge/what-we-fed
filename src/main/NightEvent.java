@@ -10,11 +10,11 @@ public class NightEvent {
     public boolean isHolding;
     public String targetSequence = "";
     private final String[] daySequences = {
-            "DLOHZX",  // day 1
-            "YATSMV",     // day 2
-            "TEIUQI",   // day 3
-            "LLITS",    // day 4
-            "YRROS" // day 5
+            "dlohvi",  // day 1
+            "viyats",     // day 2
+            "teiuq",   // day 3
+            "llits",    // day 4
+            "yrros" // day 5
     };
     public int sequenceIndex = 0;
     public SuperObject doorObj;
@@ -30,7 +30,10 @@ public class NightEvent {
     }
 
     public void startEvent() {
-
+        if (gp.player.days == 6) {
+            gp.cutscene.start();
+            return;
+        }
         gp.ui.isNight = true;
         isNight = true;
 

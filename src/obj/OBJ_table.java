@@ -53,7 +53,7 @@ public class OBJ_table extends SuperObject{
 
     public void getDialogue() {
 
-        if (!alreadyAte) {
+        if (!alreadyAte || !gp.player.restocked) {
             switch (gp.player.days) {
                 case 2 -> dialogueSet = 2;
                 case 3 -> dialogueSet = 3;

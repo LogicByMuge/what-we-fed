@@ -8,7 +8,6 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class Player extends Entity{
-    GamePanel gp;
     KeyHandler keyH;
     public int days = 1;
     public boolean canSleep = false;
@@ -17,19 +16,13 @@ public class Player extends Entity{
     public boolean hasEaten = false;
     public boolean restocked = false;
     boolean dialogueDone = false;
+    public boolean canMove = true;
 
     public Player(GamePanel gp, KeyHandler keyH) {
-        this.gp = gp;
-        this.keyH = keyH;
 
-        // HITBOX
-        solidArea = new Rectangle();
-        solidArea.x = 8;
-        solidArea.y = 32;
-        solidAreaDefaultX = solidArea.x;
-        solidAreaDefaultY = solidArea.y;
-        solidArea.width = 32;
-        solidArea.height = 16;
+        super(gp);
+
+        this.keyH = keyH;
 
         setDafaultValues();
         getPlayerImage();
@@ -58,8 +51,7 @@ public class Player extends Entity{
     }
 
     public void update() {
-        if (keyH.upPressed == true || keyH.downPressed == true ||
-                keyH.leftPressed == true || keyH.rightPressed == true) {
+        if (canMove && (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed)) {
             if(keyH.upPressed == true) {
                 direction = "up";
             }
@@ -142,6 +134,10 @@ public class Player extends Entity{
     }
 
     public void interactObject(int i) {
+        if (gp.cutscene != null && gp.cutscene.active) {
+            return;
+        }
+
         if(i != 999) {
             String objectName = gp.obj[gp.currentMap][i].name;
             switch (objectName) {

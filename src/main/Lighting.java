@@ -13,8 +13,8 @@ public class Lighting {
 
     public void draw(Graphics2D g2) {
 
-        // Only activate at night
-        if (!gp.nEvent.isNight && gp.currentMap == 0) {
+        // Only activate at night (or during the Day 6 cutscene)
+        if (!gp.nEvent.isNight && !gp.cutscene.active && gp.currentMap == 0) {
             return;
         }
 

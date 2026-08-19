@@ -18,8 +18,8 @@ public class OBJ_lockedDoor extends SuperObject{
 
     public void setDialogue() {
         dialogue[0][0] = "Locked.";
-        dialogue[0][1] = "Something's scratching from the other side.\n" +
-                "She doesn't wait to find out what.";
+        dialogue[0][1] = "Something's scratching from the other side.";
+        dialogue[0][2] = "She doesn't wait to find out what.";
     }
 
     public void getDialogue() {
