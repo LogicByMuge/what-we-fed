@@ -29,8 +29,8 @@ public class Player extends Entity{
     }
 
     public void setDafaultValues() {
-        x = 200;
-        y = 300;
+        x = 551;
+        y = 273;
         speed = 3;
         direction = "down";
     }
@@ -159,6 +159,9 @@ public class Player extends Entity{
                             food = 0;
                         }
 
+                        gp.sound.setFile(4);
+                        gp.sound.play();
+
                         hasEaten = false;
                         canSleep = false;
 
@@ -195,6 +198,8 @@ public class Player extends Entity{
                             gp.obj[0][i].getDialogue();
                         } else if (days % 2 == 1 && days != 5) {
                             if (food == 0 && hasEaten && dialogueDone) {
+                                gp.sound.setFile(0);
+                                gp.sound.play();
                                 gp.currentMap = 1;
                                 x = 13 * gp.tileSize;
                                 y = 5 * gp.tileSize;
@@ -216,6 +221,8 @@ public class Player extends Entity{
                     break;
                 case "Corridor Door":
                     if(restocked) {
+                        gp.sound.setFile(0);
+                        gp.sound.play();
                         gp.currentMap = 0;
                         x = 3 * gp.tileSize;
                         y = 10 * gp.tileSize;

@@ -59,13 +59,20 @@ public class UI {
             return;
         }
 
+
+
         // DIALOGUE
         if(gp.gameState == gp.dialogueState) {
             drawDialogueScreen();
         }
 
+        // TITLE STATE
+        if(gp.gameState == gp.titleState) {
+            drawTitleScreen();
+        }
+
         // GAME OVER
-        if(gp.gameState == gp.gameOver) {
+        else if(gp.gameState == gp.gameOver) {
             drawGameOverScreen();
             secondCounter++;
 
@@ -138,7 +145,7 @@ public class UI {
                     taskComplete = false;
                     gp.nEvent.isNight = false;
                     isSleeping = true;
-                    gp.player.x = 626;
+                    gp.player.x = 551;
                     gp.player.y = 273;
                 }
             }
@@ -295,5 +302,19 @@ public class UI {
         if(secondCounter > 120) {
             secondCounter = 0;
         }
+    }
+
+    public void drawTitleScreen() {
+        // Menu
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD,40F));
+        g2.setColor(Color.WHITE);
+        String text = "PRESS ENTER TO WAKE UP";
+        int textWidth = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
+        int textHeight = (int) g2.getFontMetrics().getStringBounds(text, g2).getHeight();
+
+        int x = gp.screenWidth / 2 - textWidth / 2;
+        int y = gp.screenHeight / 2 + textHeight / 2;
+
+        g2.drawString(text, x, y);
     }
 }

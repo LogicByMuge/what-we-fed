@@ -48,6 +48,7 @@ public class GamePanel extends JPanel implements Runnable{
 
     // GAME STATE
     public int gameState;
+    public final int titleState = 0;
     public final int playState = 1;
     public final int dialogueState = 2;
     public final int gameOver = 3;
@@ -60,7 +61,7 @@ public class GamePanel extends JPanel implements Runnable{
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
-        this.setBackground(Color.WHITE);
+        this.setBackground(Color.BLACK);
         this.setDoubleBuffered(true);
         this.addKeyListener(keyH);
         this.setFocusable(true);
@@ -69,7 +70,8 @@ public class GamePanel extends JPanel implements Runnable{
     public void setupGame() {
         aSetter.setObject();
         aSetter.setNPC();
-        gameState = playState;
+        gameState = titleState;
+        sound.setFile(4);
 
         try {
             endingImages[0] = javax.imageio.ImageIO.read(getClass().getResourceAsStream("/ending/scene1.png"));
@@ -123,6 +125,10 @@ public class GamePanel extends JPanel implements Runnable{
         }
         else if (gameState == endingState) {
             endingTimer++;
+            if(endingTimer > 0 && endingTimer < 2) {
+                sound.setFile(4);
+                sound.play();
+            }
             if (endingTimer > endingImageDuration) {
                 endingTimer = 0;
                 endingIndex++;
@@ -147,34 +153,40 @@ public class GamePanel extends JPanel implements Runnable{
             return;
         }
 
-        // TILE
-        tileM.draw(g2);
+        if(gameState == titleState) {
+            ui.draw(g2);
+        } else {
+            // TILE
+            tileM.draw(g2);
 
-        // OBJECT
-        for (int i = 0; i < obj[1].length; i++) {
-            if (obj[currentMap][i] != null) {
-                obj[currentMap][i].draw(g2, this);
+            // OBJECT
+            for (int i = 0; i < obj[1].length; i++) {
+                if (obj[currentMap][i] != null) {
+                    obj[currentMap][i].draw(g2, this);
+                }
             }
+
+            // PLAYER
+            player.draw(g2);
+
+            // NPC
+            for(int i = 0; i < npc.length; i++) {
+                if(npc[i] != null && npc[i].visible) {
+                    npc[i].draw(g2);
+                }
+            }
+
+
+
+            // LIGHTING
+            lighting.draw(g2);
+
+            // UI
+            ui.draw(g2);
+
+            g2.dispose();
         }
 
-        // PLAYER
-        player.draw(g2);
 
-        // NPC
-        for(int i = 0; i < npc.length; i++) {
-            if(npc[i] != null && npc[i].visible) {
-                npc[i].draw(g2);
-            }
-        }
-
-
-
-        // LIGHTING
-        lighting.draw(g2);
-
-        // UI
-        ui.draw(g2);
-
-        g2.dispose();
     }
 }

@@ -13,8 +13,8 @@ public class NightEvent {
             "dlohvi",  // day 1
             "viyats",     // day 2
             "teiuq",   // day 3
-            "llits",    // day 4
-            "yrros" // day 5
+            "whydid",    // day 4
+            "yrrosx" // day 5
     };
     public int sequenceIndex = 0;
     public SuperObject doorObj;
@@ -23,6 +23,7 @@ public class NightEvent {
     public int letterTimer;
     public int wrongFlashTimer = 0;
     private boolean justStarted = false;
+    private int timer = 60;
 
 
     public NightEvent(GamePanel gp) {
@@ -48,6 +49,15 @@ public class NightEvent {
 
 
     public void update() {
+        if(isNight) {
+            timer--;
+            if(timer == 0) {
+                gp.sound.setFile(1);
+                gp.sound.play();
+                timer = 60;
+            }
+        }
+
         if (justStarted) {
             justStarted = false;
             gp.keyH.lastTypedChar = '\0';

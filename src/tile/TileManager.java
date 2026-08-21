@@ -49,7 +49,7 @@ public class TileManager {
         setup(11,"fridgeTop",true);
         setup(12,"sink",true);
         setup(13,"pantry",true);
-        setup(14,"stove",true);
+        setup(14,"Stove",true);
         setup(15,"trashcan",true);
         setup(16,"chair3",false);
         setup(17,"chair4",false);

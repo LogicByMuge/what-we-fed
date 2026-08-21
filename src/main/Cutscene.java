@@ -62,6 +62,8 @@ public class Cutscene {
 
             case 0: // wait out the blackout
                 if (!gp.ui.cutsceneBlackout) {
+                    gp.sound.setFile(1);
+                    gp.sound.play();
                     waypointIndex = 0;
                     step = 1;
                 }
@@ -72,6 +74,8 @@ public class Cutscene {
                 walkTo(gp.player, target[0], target[1]);
                 animate(gp.player);
                 if (reached(gp.player, target[0], target[1])) {
+                    gp.sound.setFile(1);
+                    gp.sound.play();
                     waypointIndex++;
                     if (waypointIndex >= waypoints.length) {
                         idle(gp.player);
@@ -82,10 +86,18 @@ public class Cutscene {
                 break;
 
             case 2: // holding the door, brief pause
-                if (--pauseTimer <= 0) step = 3;
+                if(pauseTimer == 30) {
+                    gp.sound.setFile(1);
+                    gp.sound.play();
+                }
+                if (--pauseTimer <= 0) {
+                    step = 3;
+                }
                 break;
 
             case 3: // door budges (hook your visual/sprite swap here)
+                gp.sound.setFile(3);
+                gp.sound.play();
                 pauseTimer = 60; // ~1 second before NPC pops
                 step = 4;
                 break;
@@ -132,7 +144,7 @@ public class Cutscene {
             case 10: sayLine("\"Mara. It's me.\" A voice she knows."); break;
             case 11: sayLine("\"Please. You can't keep doing this.\""); break;
             case 12: sayLine("\"There's nothing left out there anymore.\nNo one's coming to fix this.\nIt's just us now, whoever's left.\""); break;
-            case 13: sayLine("\"I know you don't want to hear it.\""); break;
+            case 13: sayLine("\"I know you don't want to hear it but shes already dead.\""); break;
             case 14: sayLine("\"It wasn't your fault. None of us saw it coming.\""); break;
 
             case 15:
@@ -147,6 +159,8 @@ public class Cutscene {
 
                     // Stop exactly at the NPC's Y position
                     gp.player.y = npc.y - 15;
+                    gp.sound.setFile(5);
+                    gp.sound.play();
 
                     idle(gp.player);
                     // Continue to the next dialogue
@@ -163,6 +177,8 @@ public class Cutscene {
             case 18: sayLine("\"I just wanted to bring you back.\""); break;
 
             case 19:
+                gp.sound.setFile(6);
+                gp.sound.play();
                 npc.isDead = true;
                 pauseTimer = 40;
                 step = 20;

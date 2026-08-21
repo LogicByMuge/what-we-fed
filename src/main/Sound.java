@@ -16,6 +16,9 @@ public class Sound {
         soundURL[1] = getClass().getResource("/sound/knocking.wav");
         soundURL[2] = getClass().getResource("/sound/speak.wav");
         soundURL[3] = getClass().getResource("/sound/dooropen.wav");
+        soundURL[4] = getClass().getResource("/sound/night.wav");
+        soundURL[5] = getClass().getResource("/sound/stab.wav");
+        soundURL[6] = getClass().getResource("/sound/fall.wav");
         // add more as needed, keep indices documented
     }
 

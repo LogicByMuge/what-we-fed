@@ -21,6 +21,14 @@ public class KeyHandler implements KeyListener {
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();
 
+        // TITLE STATE
+        if(gp.gameState == gp.titleState) {
+            if(code == KeyEvent.VK_ENTER) {
+                gp.sound.play();
+                gp.gameState = gp.playState;
+            }
+        }
+
         // GAME STATE
         if(gp.gameState == gp.playState) {
 
